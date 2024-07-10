@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { FormEvent, useState } from 'react';
+import { Item } from './Item';
+import { RecursiveItem } from './types';
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [name, setName] = useState('');
+	const [data, setData] = useState<RecursiveItem[]>([]);
+	const [selectedItem, setSelectedItem] = useState<RecursiveItem | null>(null);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const id =
+			new Date().getTime() + Math.floor(Math.random() * (1 - 10 + 1) + 10);
+
+		setData((prevState) => {
+			return prevState;
+		});
+
+		setName('');
+		setSelectedItem(null);
+	};
+
+	return (
+		<>
+			<p>SELECTED: {selectedItem?.name}</p>
+
+			<form onSubmit={handleSubmit}>
+				<input value={name} onChange={(e) => setName(e.target.value)} />
+				<button style={{ marginLeft: '10px' }}>Submit</button>
+			</form>
+
+			{data?.length > 0 && (
+				<ul>
+					{data.map((el) => (
+						<Item
+							{...el}
+							key={el.id}
+							onSelected={(value) => setSelectedItem(value)}
+						/>
+					))}
+				</ul>
+			)}
+		</>
+	);
 }
 
-export default App
+export default App;
