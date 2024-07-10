@@ -1,6 +1,6 @@
 export type RecursiveItem = {
 	id: string;
 	name: string;
-	level: number;
+	level: string;
 	child?: RecursiveItem[];
 };

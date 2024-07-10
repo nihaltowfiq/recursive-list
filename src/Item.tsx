@@ -3,7 +3,9 @@ import { RecursiveItem } from './types';
 export function Item({ name, onSelected, child, ...rest }: Props) {
 	return (
 		<li>
-			<p onClick={() => onSelected({ name, ...rest })}>{name}</p>
+			<p role="button" onClick={() => onSelected({ name, ...rest })}>
+				{name}
+			</p>
 
 			{child?.length > 0 && (
 				<ul>
