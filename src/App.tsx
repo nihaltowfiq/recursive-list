@@ -43,7 +43,7 @@ function App() {
 			if (item.level === level) {
 				item.child = [...item.child, payload];
 			} else if (item.child?.length > 0) {
-				insertItem(item.child, level, payload);
+				item.child = insertItem(item.child, level, payload);
 			}
 
 			return item;
@@ -51,20 +51,25 @@ function App() {
 	};
 
 	return (
-		<>
-			<p>SELECTED: {selectedItem?.name}</p>
+		<div className="container py-[1rem]">
+			<p className="mb-4">
+				SELECTED: <span className="font-semibold">{selectedItem?.name}</span>
+			</p>
 
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} className="mb-4">
 				<input
 					value={name}
 					placeholder="Enter item name!"
 					onChange={(e) => setName(e.target.value)}
+					className="p-2 border border-gray-200 outline-none rounded"
 				/>
-				<button style={{ marginLeft: '10px' }}>Submit</button>
+				<button className="ml-4 font-medium border border-gray-200 py-2 px-3 hover:bg-gray-200 rounded">
+					Submit
+				</button>
 			</form>
 
 			{data && data?.length > 0 && (
-				<ul>
+				<ul role="list" className="ml-3 list-disc list-inside">
 					{data.map((el) => (
 						<Item
 							{...el}
@@ -74,7 +79,7 @@ function App() {
 					))}
 				</ul>
 			)}
-		</>
+		</div>
 	);
 }
 
