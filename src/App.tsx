@@ -1,8 +1,9 @@
 import { FormEvent, useState } from 'react';
+import { Instruction } from './Instruction';
 import { Item } from './Item';
 import { RecursiveItem } from './types';
 
-function App() {
+export default function App() {
 	const [name, setName] = useState('');
 	const [data, setData] = useState<RecursiveItem[]>([]);
 	const [selectedItem, setSelectedItem] = useState<RecursiveItem | null>(null);
@@ -52,6 +53,8 @@ function App() {
 
 	return (
 		<div className="container py-[1rem]">
+			<Instruction />
+
 			<p className="mb-4">
 				SELECTED: <span className="font-semibold">{selectedItem?.name}</span>
 			</p>
@@ -82,5 +85,3 @@ function App() {
 		</div>
 	);
 }
-
-export default App;
