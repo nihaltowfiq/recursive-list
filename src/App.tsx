@@ -1,21 +1,31 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { Instruction } from './Instruction';
 import { Item } from './Item';
 import { RecursiveItem } from './types';
+import { getId } from './utils';
 
 export default function App() {
-	const [name, setName] = useState('');
 	const [data, setData] = useState<RecursiveItem[]>([]);
 	const [selectedItem, setSelectedItem] = useState<RecursiveItem | null>(null);
+
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const id = String(
-			new Date().getTime() + Math.floor(Math.random() * (1 - 10 + 1) + 10),
-		);
+		if (!inputRef.current.value) {
+			inputRef.current.classList.add('animate-shake');
 
-		const payload = { id, name, level: '', child: [] };
+			setTimeout(() => {
+				inputRef.current.classList.remove('animate-shake');
+				inputRef.current.focus();
+			}, 1000);
+
+			return;
+		}
+
+		const id = getId();
+		const payload = { id, name: inputRef.current.value, level: '', child: [] };
 
 		setData((prevState) => {
 			let newState = [...prevState];
@@ -31,8 +41,8 @@ export default function App() {
 			return newState;
 		});
 
-		setName('');
 		setSelectedItem(null);
+		inputRef.current.value = '';
 	};
 
 	const insertItem = (
@@ -61,10 +71,9 @@ export default function App() {
 
 			<form onSubmit={handleSubmit} className="mb-4">
 				<input
-					value={name}
+					ref={inputRef}
 					placeholder="Enter item name!"
-					onChange={(e) => setName(e.target.value)}
-					className="p-2 border border-gray-200 outline-none rounded"
+					className="py-2 px-3 border border-gray-200 outline-none rounded"
 				/>
 				<button className="ml-4 font-medium border border-gray-200 py-2 px-3 hover:bg-gray-200 rounded">
 					Submit
@@ -77,7 +86,11 @@ export default function App() {
 						<Item
 							{...el}
 							key={el.id}
-							onSelected={(value) => setSelectedItem(value)}
+							selectedItem={selectedItem}
+							onSelected={(value) => {
+								setSelectedItem(value);
+								inputRef.current.focus();
+							}}
 						/>
 					))}
 				</ul>
