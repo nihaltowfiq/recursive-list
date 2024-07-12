@@ -10,5 +10,5 @@
 ---
 
 <div align="center">
-    <b>The insertion and rendering process is happening recursively.</b>
+    <b>The insertion and rendering process is occurring recursively.</b>
 </div>
