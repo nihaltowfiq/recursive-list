@@ -1,5 +1,5 @@
 <div align="center">
-    <h2>Recursive List</h2>
+    <h1>Recursive List</h1>
 </div>
 
 **Instructions:**
